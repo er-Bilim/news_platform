@@ -83,11 +83,16 @@ newsRouter.post(
 
 newsRouter.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const { id }= req.params;
-    const repository = new Repository<boolean>('news', null);
-    const isDeleted: boolean = await repository.deleteItem(id as string);
+    const { id } = req.params;
+    const repositoryDeleteItem = new Repository<boolean>('news', null);
+    const repositoryItem = new Repository<INews>('news', '*');
+    const news = await repositoryItem.getById(id as string);
+    const isDeleted: boolean = await repositoryDeleteItem.deleteItem(
+      id as string,
+    );
 
     if (isDeleted) {
+      repositoryItem.deleteImage(news as INews);
       return res.json({
         message: 'News deleted successfully',
       });

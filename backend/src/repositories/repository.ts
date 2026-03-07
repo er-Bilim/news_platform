@@ -1,6 +1,8 @@
 import { QueryResult, ResultSetHeader } from 'mysql2';
 import mysqlDb from '../config/mysqlDb';
-import { error } from 'node:console';
+import fs from 'fs/promises';
+import path from 'path';
+import config from '../config';
 export class Repository<T> {
   constructor(
     private tableName: string,
@@ -53,5 +55,15 @@ export class Repository<T> {
     const resultHeader: QueryResult = result as ResultSetHeader;
 
     return resultHeader.affectedRows > 0;
+  }
+
+  async deleteImage(item: T & { image: string | null }): Promise<void> {
+    if (item.image) {
+      try {
+        await fs.unlink(path.join(config.publicPath, item.image));
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 }
