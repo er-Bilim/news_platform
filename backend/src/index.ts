@@ -1,9 +1,9 @@
 import express from 'express';
 import type { Express } from 'express';
 import cors from 'cors';
-import { PORT } from './constants/constants';
-import apiRoute from './routes/api.route';
-import mysqlDb from './config/mysqlDb';
+import { PORT } from './constants/constants.js';
+import apiRoute from './routes/api.route.js';
+import mysqlDb from './config/mysqlDb.js';
 import dotenv from 'dotenv';
 
 const app: Express = express();

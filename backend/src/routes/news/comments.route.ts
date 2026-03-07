@@ -1,10 +1,10 @@
 import type { Request, Response, Router } from 'express';
 import express from 'express';
-import { IComment } from '../../types/news/news.types';
-import validateDb from '../../utils/validateDB';
+import type { IComment } from '../../types/news/news.types.js';
+import validateDb from '../../utils/validateDB.js';
 import type { Connection, ResultSetHeader } from 'mysql2/promise';
-import mysqlDb from '../../config/mysqlDb';
-import { Repository } from '../../repositories/repository';
+import mysqlDb from '../../config/mysqlDb.js';
+import { Repository } from '../../repositories/repository.js';
 
 const commentsRouter: Router = express.Router();
 

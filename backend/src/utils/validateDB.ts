@@ -1,5 +1,4 @@
 import type { Response } from 'express';
-import { ResultSetHeader } from 'mysql2';
 
 interface IValidateData {
   [key: string]: any;

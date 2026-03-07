@@ -1,7 +1,7 @@
 import express from "express";
 import type { Router } from "express";
-import newsRouter from "./news/news.route";
-import commentsRouter from "./news/comments.route";
+import newsRouter from "./news/news.route.js";
+import commentsRouter from "./news/comments.route.js";
 
 const apiRoute: Router = express.Router();
 

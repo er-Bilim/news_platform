@@ -1,8 +1,8 @@
-import { QueryResult, ResultSetHeader } from 'mysql2';
-import mysqlDb from '../config/mysqlDb';
+import type { QueryResult, ResultSetHeader } from 'mysql2';
+import mysqlDb from '../config/mysqlDb.js';
 import fs from 'fs/promises';
 import path from 'path';
-import config from '../config';
+import config from '../config.js';
 export class Repository<T> {
   constructor(
     private tableName: string,
@@ -29,7 +29,7 @@ export class Repository<T> {
     );
     const items = result as T[];
 
-    return items.length > 0
+    return items.length > 0 && items[0]
       ? items[0]
       : {
           error: 'Not found',

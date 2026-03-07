@@ -1,11 +1,11 @@
 import type { Request, Response, Router } from 'express';
 import express from 'express';
-import { imagesUpload } from '../../middlewares/multer';
-import { INews, INewsWithoutContent } from '../../types/news/news.types';
+import { imagesUpload } from '../../middlewares/multer.js';
+import type { INews, INewsWithoutContent } from '../../types/news/news.types.js';
 import type { Connection, ResultSetHeader } from 'mysql2/promise';
-import mysqlDb from '../../config/mysqlDb';
-import validateDb from '../../utils/validateDB';
-import { Repository } from '../../repositories/repository';
+import mysqlDb from '../../config/mysqlDb.js';
+import validateDb from '../../utils/validateDB.js';
+import { Repository } from '../../repositories/repository.js';
 
 const newsRouter: Router = express.Router();
 
