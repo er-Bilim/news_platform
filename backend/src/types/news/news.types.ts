@@ -11,7 +11,7 @@ export type INewsWithoutContent = Omit<INews, 'content'>;
 
 export interface IComment {
   id: number;
-  news_id: number;
+  news_id: string;
   author: string;
   content: string;
 }

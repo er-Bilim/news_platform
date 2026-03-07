@@ -6,9 +6,10 @@ interface IValidateData {
 }
 
 const validateDb = {
-  validateDataId(result: ResultSetHeader, res: Response, entityName: string) {
-    if (result.affectedRows === 0) {
-      res.status(404).json({ error: `${entityName} not found` });
+  validateDataId(error: unknown, fields: string[], res: Response) {
+    const errorErrno = error as { errno: number };
+    if (errorErrno.errno === 1452) {
+      res.status(404).json({ error: `${fields.join(', ')} not found` });
       return false;
     }
 
