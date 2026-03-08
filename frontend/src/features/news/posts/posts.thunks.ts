@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type {
+  INews,
   INewsMutation,
   INewsWithoutContent,
 } from '../../../types/news/news.types';
@@ -9,11 +10,20 @@ import type { AppDispatch } from '../../../app/store';
 export const getPosts = createAsyncThunk<INewsWithoutContent[], void>(
   'news/getPosts',
   async () => {
-    const response =
-      await axiosApi.get<INewsWithoutContent[]>('/news');
+    const response = await axiosApi.get<INewsWithoutContent[]>('/news');
     const posts: INewsWithoutContent[] = response.data;
 
     return posts;
+  },
+);
+
+export const getPostById = createAsyncThunk<INews, { id: string }>(
+  'news/getPostById',
+  async ({id}) => {
+    const response = await axiosApi.get<INews>(`/news/${id}`);
+    const post = response.data;
+
+    return post;
   },
 );
 
@@ -39,9 +49,12 @@ export const createPost = createAsyncThunk<
   dispatch(getPosts());
 });
 
-export const deletePost = createAsyncThunk<void, string>(
-  'news/deletePost',
-  async (id) => {
-    await axiosApi.delete(`/news/${id}`);
-  },
-);
+export const deletePost = createAsyncThunk<
+  void,
+  number,
+  { dispatch: AppDispatch }
+>('news/deletePost', async (id, { dispatch }) => {
+  await axiosApi.delete(`/news/${id}`);
+
+  dispatch(getPosts());
+});
