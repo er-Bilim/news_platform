@@ -3,6 +3,7 @@ export interface INews {
   title: string;
   content: string | null;
   image: string | null;
+  publication_date: string;
 }
 
 export interface INewsMutation {
@@ -25,4 +26,4 @@ export interface IComment {
   content: string;
 }
 
-export type ICommentWithoutId = Omit<IComment, 'id'>;
+export type ICommentMutation = Omit<IComment, 'id'>;
