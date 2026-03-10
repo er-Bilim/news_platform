@@ -38,10 +38,14 @@ const FullPost = () => {
         <>
           <Box
             sx={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              height: '550px',
+              width: '100%',
+              borderRadius: 13,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: '0 0 30px',
+              background: grey[200],
             }}
           >
             <Loader />
@@ -52,14 +56,7 @@ const FullPost = () => {
 
     if (isError) {
       return (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
+        <Box>
           <p className="posts-error">Error</p>
         </Box>
       );
@@ -120,7 +117,13 @@ const FullPost = () => {
 
   return (
     <>
-      <Box>{renderContent()}</Box>
+      <Box
+        sx={{
+          position: 'relative',
+        }}
+      >
+        {renderContent()}
+      </Box>
       <Outlet />
     </>
   );

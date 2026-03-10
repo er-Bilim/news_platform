@@ -4,22 +4,65 @@ import { Box, Button, CardMedia, Typography } from '@mui/material';
 import AvatarPlaceholder from '../../../../../assets/images/placeholder/avatar_placeholder.png';
 import { grey, red } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useAppSelector } from '../../../../../app/hooks/reduxHooks';
+import {
+  selectLoading,
+} from '../../../comment/comment.selectors';
+import Loader from '../../../../../UI/Loader/Loader';
+import { getLoadingStateItem } from '../../../helper/getLoadingStateItem';
 
 interface ICommentProps {
   comment: IComment;
   onDeleteComment: (idComment: string) => void;
+  idLoadingItem: string | null;
 }
 
-const CommentItem: FC<ICommentProps> = ({ comment, onDeleteComment }) => {
+const CommentItem: FC<ICommentProps> = ({
+  comment,
+  onDeleteComment,
+  idLoadingItem,
+}) => {
+  const { deleteLoading, fetchLoading } = useAppSelector(selectLoading);
+  const stateLoading: boolean = getLoadingStateItem<IComment>(
+    deleteLoading,
+    idLoadingItem,
+    comment,
+  );
   const renderContent = () => {
+    if (stateLoading) {
+      return (
+        <>
+          <Box
+            sx={{
+              height: '220px',
+              width: '100%',
+              borderRadius: 10,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: grey[200],
+            }}
+          >
+            <Loader />
+          </Box>
+        </>
+      );
+    }
+
     return (
       <Box
         display={'flex'}
         flexDirection={'column'}
         gap={3}
-        border={2}
         padding={3}
-        borderRadius={6}
+        borderRadius={10}
+        sx={{
+          cursor: stateLoading ? 'not-allowed' : 'none',
+          backgroundColor: stateLoading ? grey[200] : 'white',
+          border: 2,
+          borderColor: stateLoading ? grey[200] : grey[900],
+          display: fetchLoading ? 'none' : 'block',
+        }}
       >
         <Box
           width={'300px'}
@@ -55,7 +98,11 @@ const CommentItem: FC<ICommentProps> = ({ comment, onDeleteComment }) => {
             {comment.author}
           </Typography>
         </Box>
-        <Box paddingLeft={3}>
+        <Box
+          sx={{
+            padding: '25px',
+          }}
+        >
           <Typography>{comment.content}</Typography>
         </Box>
         <Button

@@ -1,22 +1,19 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import {
-  useAppDispatch,
   useAppSelector,
 } from '../../../../../app/hooks/reduxHooks';
 import { selectLoading } from '../../../comment/comment.selectors';
 import type { ICommentMutation } from '../../../../../types/news/news.types';
 import { useForm, Controller } from 'react-hook-form';
-import { createComment } from '../../../comment/comment.thunks';
 import type { FC } from 'react';
 import { grey } from '@mui/material/colors';
 import SendIcon from '@mui/icons-material/Send';
 
 interface ICommentFormProps {
-  idNews: string;
+  handleAddComment: (data: ICommentMutation) => Promise<void>;
 }
 
-const CommentForm: FC<ICommentFormProps> = ({ idNews }) => {
-  const dispatch = useAppDispatch();
+const CommentForm: FC<ICommentFormProps> = ({ handleAddComment }) => {
   const { sendLoading } = useAppSelector(selectLoading);
   const defaultValues: ICommentMutation = {
     news_id: '',
@@ -27,8 +24,8 @@ const CommentForm: FC<ICommentFormProps> = ({ idNews }) => {
     defaultValues,
   });
 
-  const onSubmit = (data: ICommentMutation) => {
-    dispatch(createComment({ idNews, comment: data })).then(() => reset());
+  const onSubmit = async (data: ICommentMutation) => {
+    await handleAddComment(data).then(() => reset());
   };
 
   return (
